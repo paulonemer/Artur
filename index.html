@@ -9,6 +9,14 @@
         height: 100%;
         margin: 0;
         overflow: hidden;
+        font-family: "Ubuntu Sans", sans-serif; /* Define a fonte para todo o documento */
+    }
+    @font-face {
+        font-family: "Ubuntu Sans"; /* Define o nome da fonte */
+        src: url('ubuntu-sans.woff2') format('woff2'), /* Caminho para o arquivo da fonte */
+             url('ubuntu-sans.woff') format('woff'); /* Caminho para o arquivo da fonte */
+        font-weight: normal;
+        font-style: normal;
     }
     #canvas {
         position: relative;
@@ -55,6 +63,30 @@
         opacity: 0; /* Inicialmente transparente */
         transition: opacity 5s ease; /* Adiciona uma transição suave */
     }
+    #image-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none; /* Inicialmente oculto */
+        transition: opacity 5s ease; /* Adiciona uma transição suave */
+    }
+    #spotify-container {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none; /* Inicialmente oculto */
+        transition: opacity 5s ease; /* Adiciona uma transição suave */
+    }
+    #spotify-image {
+        max-width: 95%; /* Define a largura máxima da imagem */
+        height: auto; /* Altura automática */
+    }
+    #spotify-iframe {
+        max-width: 100%; /* Define a largura máxima do iframe */
+        height: auto; /* Altura automática */
+    }
 </style>
 </head>
 <body>
@@ -64,6 +96,12 @@
         <div id="bar"></div>
     </div>
     <div id="text">Com muito amor, para o garoto mais especial do mundo.</div>
+    <div id="image-container">
+        <img id="spotify-image" src="spotfy.png" alt="Spotify">
+    </div>
+    <div id="spotify-container">
+        <iframe id="spotify-iframe" src="https://open.spotify.com/embed/track/3PlKQNlbL4767rND3HnqSI?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
 </div>
 
 <script>
@@ -72,6 +110,8 @@
     const bar = document.getElementById('bar');
     const canvas = document.getElementById('canvas');
     const text = document.getElementById('text');
+    const imageContainer = document.getElementById('image-container');
+    const spotifyContainer = document.getElementById('spotify-container');
 
     let barWidth = 0;
 
@@ -85,9 +125,20 @@
                     bar.style.backgroundColor = 'black'; // Define o fundo preto
                 }, 1000); // Aguarda 1 segundo antes de mudar o fundo para preto
                 setTimeout(() => {
-                    heart.style.display = 'none'; // Oculta o coração
                     text.style.opacity = 1; // Torna o texto visível
-                }, 6000); // Aguarda 6 segundos antes de mostrar o texto
+                }, 2000); // Aguarda 2 segundos antes de mostrar o texto
+                setTimeout(() => {
+                 
+                    heart.style.display = 'none'; // Oculta o coração
+                }, 2000); // Aguarda 7 segundos antes de desaparecer o texto e ocultar o coração
+                setTimeout(() => {
+                    text.style.opacity = 0; // Faz o texto desaparecer
+                    
+                }, 8000); // Aguarda 7 segundos antes de desaparecer o texto e ocultar o coração
+                setTimeout(() => {
+                    imageContainer.style.display = 'block'; // Mostra a imagem
+                    spotifyContainer.style.display = 'block'; // Mostra a faixa do Spotify
+                }, 12000); // Aguarda 12 segundos antes de mostrar a imagem e a faixa do Spotify
             }
         }
     });
