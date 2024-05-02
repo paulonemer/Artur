@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coração e Barra</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    #canvas {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: white; /* Cor inicial de fundo */
+        transition: background-color 5s ease; /* Adiciona uma transição suave */
+    }
+    #heart {
+        position: absolute;
+        top: calc(50% - 50px); /* Ajuste para centralizar o coração */
+        left: calc(50% - 50px); /* Ajuste para centralizar o coração */
+        width: 100px;
+        height: 100px;
+        z-index: 1; /* Garante que o coração esteja acima da barra */
+        transition: width 5s ease, height 5s ease; /* Adiciona transições suaves */
+    }
+    #bar-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0; /* Garante que a barra esteja abaixo do coração */
+        transition: width 1s ease; /* Adiciona uma transição suave */
+    }
+    #bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: background-color 5s ease; /* Adiciona uma transição suave */
+    }
+    #text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 24px;
+        color: white;
+        opacity: 0; /* Inicialmente transparente */
+        transition: opacity 5s ease; /* Adiciona uma transição suave */
+    }
+</style>
+</head>
+<body>
+<div id="canvas">
+    <img id="heart" src="coracao.png" alt="Coração">
+    <div id="bar-container">
+        <div id="bar"></div>
+    </div>
+    <div id="text">Com muito amor, para o garoto mais especial do mundo.</div>
+</div>
+
+<script>
+    const heart = document.getElementById('heart');
+    const barContainer = document.getElementById('bar-container');
+    const bar = document.getElementById('bar');
+    const canvas = document.getElementById('canvas');
+    const text = document.getElementById('text');
+
+    let barWidth = 0;
+
+    heart.addEventListener('click', () => {
+        if (barWidth < 100) {
+            barWidth += 10;
+            barContainer.style.width = barWidth + '%';
+            updateBarColor();
+            if (barWidth === 100) {
+                setTimeout(() => {
+                    bar.style.backgroundColor = 'black'; // Define o fundo preto
+                }, 1000); // Aguarda 1 segundo antes de mudar o fundo para preto
+                setTimeout(() => {
+                    heart.style.display = 'none'; // Oculta o coração
+                    text.style.opacity = 1; // Torna o texto visível
+                }, 6000); // Aguarda 6 segundos antes de mostrar o texto
+            }
+        }
+    });
+
+    function updateBarColor() {
+        const endThreshold = 90; // Porcentagem de preenchimento para começar a intensificar a cor
+        let redValue = Math.floor((barWidth / 100) * 255);
+        if (barWidth >= endThreshold) {
+            const remainingPercentage = 100 - barWidth;
+            const maxRed = 255;
+            const additionalRed = Math.floor((remainingPercentage / (100 - endThreshold)) * maxRed);
+            redValue += additionalRed;
+        }
+        bar.style.backgroundColor = `rgba(${redValue}, 0, 0, 1)`;
+    }
+</script>
+</body>
+</html>
